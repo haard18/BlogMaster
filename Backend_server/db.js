@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const mongo_uri = 'mongodb+srv://DevPatils:DevPatils@cluster0.mywzttp.mongodb.net/BlogMaster?retryWrites=true&w=majority';
+const mongo_uri = 'mongodb+srv://DevPatils:DevPatils@cluster0.mywzttp.mongodb.net/BlogMaster';
+// const mongo_uri = 'mongodb://localhost:27017/BlogMaster';
 
 const connecttoMongo = () => {
     try{
@@ -11,4 +12,4 @@ const connecttoMongo = () => {
     }
 }
 
-module.exports = connecttoMongo;
+module.exports = connecttoMongo;  
