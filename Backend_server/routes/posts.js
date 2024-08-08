@@ -49,13 +49,14 @@ postRouter.get('/getusersBlogs', fetchUser, async (req, res) => {
 //Route to get all blog posts
 postRouter.get('/getAllBlogs', async (req, res) => {
     try {
-        const posts = await Posts.find();
+        const posts = await Posts.find().populate('user', 'username'); // Populate only the username field
         res.json(posts);
     } catch (error) {
         console.error('Error fetching blogs:', error.message);
         return res.status(500).send({ error: "Internal server error!" });
     }
 });
+
 
 //Route to get a blog post by id
 postRouter.get('/getoneBlog/:id',async(req,res)=>{
@@ -119,5 +120,46 @@ postRouter.delete('/deleteBlog/:id',fetchUser,async(req,res)=>{
 
     }
 })
+
+// route for liking the post
+postRouter.put('/like/:id', fetchUser, async (req, res) => {
+    try {
+      const post = await Posts.findById(req.params.id);
+      if (!post) {
+        return res.status(404).send({ error: "Post not found" });
+      }
+      if (post.likes.includes(req.user.id)) {
+        return res.status(401).send({ error: "Already liked the post" });
+      }
+      post.likes.push(req.user.id);
+      await post.save();
+  
+      // Respond with updated likes array
+      res.json(post.likes);
+    } catch (error) {
+      console.error('Error liking blog:', error.message);
+      return res.status(500).send({ error: "Internal server error!" });
+    }
+  });
+  postRouter.put('/like/:id', fetchUser, async (req, res) => {
+    try {
+      const post = await Posts.findById(req.params.id);
+      if (!post) {
+        return res.status(404).send({ error: "Post not found" });
+      }
+      if (post.likes.includes(req.user.id)) {
+        return res.status(401).send({ error: "Already liked the post" });
+      }
+      post.likes.push(req.user.id);
+      await post.save();
+  
+      // Respond with updated likes array
+      res.json(post.likes);
+    } catch (error) {
+      console.error('Error liking blog:', error.message);
+      return res.status(500).send({ error: "Internal server error!" });
+    }
+  });
+    
 
 module.exports = postRouter;

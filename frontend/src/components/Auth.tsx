@@ -1,30 +1,72 @@
 import React, { useState } from 'react';
 import { SparklesCore } from './ui/sparkles';
+import { useNavigate } from 'react-router-dom';
 
 const Auth: React.FC = () => {
     const [isLogin, setIsLogin] = useState(true);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState<'success' | 'error'>('success');
+    const navigate = useNavigate();
 
     const toggleForm = () => {
         setIsLogin(!isLogin);
+        setAlertMessage(''); // Clear alert message on form switch
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission logic here
-        if (isLogin) {
-            console.log('Logging in with', { email, password });
-        } else {
-            console.log('Signing up with', { username, email, password });
+
+        const url = isLogin
+            ? 'http://localhost:5000/api/user/login'
+            : 'http://localhost:5000/api/user/signup';
+
+        const payload = isLogin
+            ? { email, password }
+            : { username, email, password };
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            console.log(data.token);
+
+            if (response.ok) {
+                setAlertMessage(isLogin ? 'Login successful!' : 'Sign-up successful! Welcome!');
+                setAlertType('success');
+                navigate('/allblogs'); // Additional logic for successful login/signup, e.g., redirecting
+                
+                // Additional logic for successful login/signup, e.g., redirecting
+            } else {
+                setAlertMessage(data.message || 'An error occurred.');
+                setAlertType('error');
+            }
+        } catch (error) {
+            setAlertMessage('Network error. Please try again later.');
+            setAlertType('error');
         }
     };
 
     return (
         <div className="fixed inset-0 bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
-            <div className="bg-gray-500 flex flex-col p-10 mt-[10%]">
-                <h2 className="text-2xl font-bold mb-4">{isLogin ? 'Login' : 'Sign Up'}</h2>
+            <div className="bg-gray-500 flex flex-col p-20 mt-[10%] rounded-2xl">
+                <h2 className="text-xl font-bold mb-4">{isLogin ? 'Login' : 'Sign Up'}</h2>
+                {alertMessage && (
+                    <div
+                        className={`mb-4 p-4 rounded ${alertType === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}
+                    >
+                        {alertMessage}
+                    </div>
+                )}
                 <form onSubmit={handleSubmit}>
                     {!isLogin && (
                         <div className="mb-4">
@@ -67,7 +109,7 @@ const Auth: React.FC = () => {
                     <div className="flex items-center justify-center gap-10">
                         <button
                             type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
                             {isLogin ? 'Login' : 'Sign Up'}
                         </button>
@@ -80,18 +122,17 @@ const Auth: React.FC = () => {
                         </button>
                     </div>
                 </form>
-   
             </div>
             <SparklesCore
-                    background="transparent"
-                    minSize={0.4}
-                    maxSize={1}
-                    particleDensity={120}
-                    className="w-full h-full"
-                    particleColor="#FFFFFF"
-                />
-            </div>
-            );
+                background="transparent"
+                minSize={0.4}
+                maxSize={1}
+                particleDensity={120}
+                className="w-full h-full"
+                particleColor="#FFFFFF"
+            />
+        </div>
+    );
 };
 
-            export default Auth;
+export default Auth;

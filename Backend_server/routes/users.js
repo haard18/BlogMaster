@@ -7,6 +7,7 @@ const { body, validationResult } = require('express-validator');
 const fetchUser = require('../middlewares/fetchuser');
 
 const jwtsec = 'shhhhh'
+
 // Onboard a user
 userRouter.post('/signup', [
     body('username', 'Enter a valid name').isLength({ min: 3 }),

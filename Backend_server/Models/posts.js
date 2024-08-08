@@ -21,7 +21,11 @@ const postSchema = new Schema({
     date : {
         type: Date,
         default: Date.now
-    }
+    },
+    likes : {
+        type : Number,
+        default : 0
+    },
 });
 
 
