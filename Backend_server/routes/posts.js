@@ -122,44 +122,48 @@ postRouter.delete('/deleteBlog/:id',fetchUser,async(req,res)=>{
 })
 
 // route for liking the post
-postRouter.put('/like/:id', fetchUser, async (req, res) => {
-    try {
-      const post = await Posts.findById(req.params.id);
-      if (!post) {
-        return res.status(404).send({ error: "Post not found" });
-      }
-      if (post.likes.includes(req.user.id)) {
-        return res.status(401).send({ error: "Already liked the post" });
-      }
-      post.likes.push(req.user.id);
-      await post.save();
-  
-      // Respond with updated likes array
-      res.json(post.likes);
-    } catch (error) {
-      console.error('Error liking blog:', error.message);
-      return res.status(500).send({ error: "Internal server error!" });
-    }
-  });
+
   postRouter.put('/like/:id', fetchUser, async (req, res) => {
-    try {
-      const post = await Posts.findById(req.params.id);
-      if (!post) {
-        return res.status(404).send({ error: "Post not found" });
-      }
-      if (post.likes.includes(req.user.id)) {
-        return res.status(401).send({ error: "Already liked the post" });
-      }
-      post.likes.push(req.user.id);
-      await post.save();
-  
-      // Respond with updated likes array
-      res.json(post.likes);
-    } catch (error) {
-      console.error('Error liking blog:', error.message);
-      return res.status(500).send({ error: "Internal server error!" });
+ try {
+    const post = await Posts.findById(req.params.id);
+    if (!post) {
+      return res.status(404).send({ error: "Post not found" });
     }
+    if (post.likes.includes(req.user.id)) {
+      return res.status(401).send({ error: "Already liked the post" });
+    }
+    post.likes.push(req.user.id);
+    await post.save();
+    res.json(post.likes.length);
+    
+ } catch (error) {
+   console.error('Error liking blog:', error.message);
+   return res.status(500).send({ error: "Internal server error!" });
+    
+ }
   });
+
+  // route for unliking the post
+  postRouter.delete('/unlike/:id', fetchUser, async (req, res) => {
+    try {
+       const post = await Posts.findById(req.params.id);
+       if (!post) {
+         return res.status(404).send({ error: "Post not found" });
+       }
+       if (!post.likes.includes(req.user.id)) {
+         return res.status(401).send({ error: "Post not liked yet" });
+       }
+       const index = post.likes.indexOf(req.user.id);
+       post.likes.splice(index, 1);
+       await post.save();
+       res.json(post.likes.length);
+       
+    } catch (error) {
+      console.error('Error unliking blog:', error.message);
+      return res.status(500).send({ error: "Internal server error!" });
+       
+    }
+     });
     
 
 module.exports = postRouter;

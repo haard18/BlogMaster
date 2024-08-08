@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { SparklesCore } from './ui/sparkles';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook for redirecting
 
+import AppNavbar from './AppNavbar';
+
 const CreateBlog: React.FC = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -45,75 +47,80 @@ const CreateBlog: React.FC = () => {
 
             const data = await response.json();
             console.log('Blog created:', data); // Log success message
-            navigate('/blogs'); // Optionally redirect to the blogs list or another page after successful submission
+            navigate('/allblogs'); // Optionally redirect to the blogs list or another page after successful submission
         } catch (error) {
             console.error('Error creating blog:', error); // Log any other errors
         }
     };
 
     return (
-        <div className="absolute inset-0 bg-black flex flex-col items-center justify-center overflow-hidden">
-            <div className="bg-gray-500 flex flex-col p-20 mt-[5%] rounded-2xl w-[80%] max-w-2xl">
-                <h2 className="text-2xl font-bold mb-4">Create a Blog</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-                            Title
-                        </label>
-                        <input
-                            type="text"
-                            id="title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter blog title"
-                            required // Make the field required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
-                            Description
-                        </label>
-                        <textarea
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter blog description"
-                            required // Make the field required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tag">
-                            Tag
-                        </label>
-                        <input
-                            type="text"
-                            id="tag"
-                            value={tag}
-                            onChange={(e) => setTag(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Enter blog tag"
-                            required // Make the field required
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                        Submit
-                    </button>
-                </form>
+        <>
+            <div className="absolute inset-0 bg-black flex flex-col items-center justify-center overflow-hidden ">
+                <AppNavbar/>
             </div>
-            <SparklesCore
-                background="transparent"
-                minSize={0.4}
-                maxSize={1}
-                particleDensity={200}
-                className="w-full h-full"
-                particleColor="#FFFFFF"
-            />
-        </div>
+            <div className="absolute inset-0 bg-black flex flex-col items-center justify-center overflow-hidden mt-[5%]">
+                <div className="bg-gray-500 flex flex-col p-20 mt-[5%] rounded-2xl w-[80%] max-w-2xl">
+                    <h2 className="text-2xl font-bold mb-4">Create a Blog</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+                                Title
+                            </label>
+                            <input
+                                type="text"
+                                id="title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Enter blog title"
+                                required // Make the field required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                                Description
+                            </label>
+                            <textarea
+                                id="description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Enter blog description"
+                                required // Make the field required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="tag">
+                                Tag
+                            </label>
+                            <input
+                                type="text"
+                                id="tag"
+                                value={tag}
+                                onChange={(e) => setTag(e.target.value)}
+                                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                placeholder="Enter blog tag"
+                                required // Make the field required
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </div>
+                <SparklesCore
+                    background="transparent"
+                    minSize={0.4}
+                    maxSize={1}
+                    particleDensity={200}
+                    className="w-full h-full"
+                    particleColor="#FFFFFF"
+                />
+            </div>
+        </>
     );
 };
 

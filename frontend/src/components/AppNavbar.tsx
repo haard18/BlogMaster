@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SparklesCore } from './ui/sparkles';
 
-const Navbar: React.FC = () => {
+const AppNavbar: React.FC = () => {
     const navigate = useNavigate();
 
     // Function to check if auth token is present
@@ -27,27 +27,37 @@ const Navbar: React.FC = () => {
                     </div>
                     <div className="flex space-x-4">
                         {isAuthenticated ? (
-                            <button
-                                onClick={handleLogout}
-                                className="bg-red-500 text-white px-4 py-2 rounded-md"
-                            >
-                                Logout
-                            </button>
-                        ) : (
                             <>
-
                                 <button
-                                    onClick={() => handleNavigation('/auth')}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-md relative z-20"
+                                    onClick={() => handleNavigation('/createblog')}
                                 >
-                                    Sign Up
+                                    Create Blog
+                                </button>
+                                <button
+                                    className="bg-green-500 text-white px-4 py-2 rounded-md relative z-20"
+                                    onClick={() => handleNavigation('/allblogs')}
+                                >
+                                    Read All Blogs
+                                </button>
+                                <button
+                                    className="bg-red-500 text-white px-4 py-2 rounded-md"
+                                    onClick={handleLogout}
+                                >
+                                    Logout
                                 </button>
                             </>
+                        ) : (
+                            <button
+                                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                                onClick={() => handleNavigation('/auth')}
+                            >
+                                Login
+                            </button>
                         )}
                     </div>
                 </div>
             </nav>
-
             <SparklesCore
                 background="transparent"
                 minSize={0.4}
@@ -60,4 +70,4 @@ const Navbar: React.FC = () => {
     );
 };
 
-export default Navbar;
+export default AppNavbar;
