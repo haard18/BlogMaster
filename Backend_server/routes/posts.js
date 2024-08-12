@@ -72,7 +72,20 @@ postRouter.get('/getoneBlog/:id',async(req,res)=>{
         return res.status(500).send({ error: "Internal server error!" });
     }
 })
-
+//Route to to get specific users post:
+postRouter.get('/getuserBlog/:id', async (req, res) => {
+    try {
+      const post = await Posts.find({ user: req.params.id });
+      if (!post) {
+        return res.status(404).send({ error: "Post not found" });
+      }
+      res.json(post);
+    } catch (error) {
+      console.error('Error fetching blog:', error.message);
+      return res.status(500).send({ error: "Internal server error!" });
+    }
+  });
+  
 //Route to update a blog post by id
 postRouter.put('/updateBlog/:id',[
     body('title', 'Enter a valid title').isLength({ min: 3 }),

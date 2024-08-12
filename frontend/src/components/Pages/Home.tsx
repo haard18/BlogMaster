@@ -1,6 +1,6 @@
 
 // ./components/Pages/Home.tsx
-import React from 'react';
+
 import { SparklesPreview } from '../sparklesview';
 import Navbar from '../Navbar';
 

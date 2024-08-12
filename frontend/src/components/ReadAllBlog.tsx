@@ -31,7 +31,7 @@ const BlogList: React.FC = () => {
   const fetchBlogs = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost:5000/api/post/getAllBlogs");
+      const response = await axios.get("https://blogmaster-server-83cv.onrender.com/api/post/getAllBlogs");
       const blogsData = response.data.map((blog: BlogPost) => ({
         ...blog,
         likes: blog.likes || [], // Ensure likes is always an array
@@ -76,7 +76,7 @@ const BlogList: React.FC = () => {
       }));
 
       await axios.put(
-        `http://localhost:5000/api/post/like/${_id}`,
+        `https://blogmaster-server-83cv.onrender.com/api/post/like/${_id}`,
         {},
         {
           headers: {
@@ -112,7 +112,7 @@ const BlogList: React.FC = () => {
         [_id]: true,
       }));
 
-      await axios.delete(`http://localhost:5000/api/post/unlike/${_id}`, {
+      await axios.delete(`https://blogmaster-server-83cv.onrender.com/api/post/unlike/${_id}`, {
         headers: {
           "auth-token": token || "", // Include the token in the headers
         },
@@ -153,7 +153,7 @@ const BlogList: React.FC = () => {
       <div className="absolute inset-0 bg-black flex flex-col items-center justify-center overflow-hidden">
         <AppNavbar />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-start overflow-hidden pt-24 mt-[5%] h-max">
+      <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 flex flex-col items-center justify-start overflow-hidden pt-24 mt-[5%] h-max ">
         <h1 className="text-5xl font-extrabold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-purple-500">
           All Blog Posts
         </h1>

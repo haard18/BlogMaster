@@ -31,7 +31,7 @@ const CreateBlog: React.FC = () => {
 
         try {
             // Example POST request with token
-            const response = await fetch('http://localhost:5000/api/post/addblog', {
+            const response = await fetch('https://blogmaster-server-83cv.onrender.com/api/post/addblog', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -20,8 +20,8 @@ const Auth: React.FC = () => {
         e.preventDefault();
 
         const url = isLogin
-            ? 'http://localhost:5000/api/user/login'
-            : 'http://localhost:5000/api/user/signup';
+            ? 'https://blogmaster-server-83cv.onrender.com/api/user/login'
+            : 'https://blogmaster-server-83cv.onrender.com/api/user/signup';
 
         const payload = isLogin
             ? { email, password }

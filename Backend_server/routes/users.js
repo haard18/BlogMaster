@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs')
 const { body, validationResult } = require('express-validator');
 const fetchUser = require('../middlewares/fetchuser');
 
-const jwtsec = 'shhhhh'
+const jwtsec = 'shhhhh';
 
 // Onboard a user
 userRouter.post('/signup', [
@@ -14,7 +14,7 @@ userRouter.post('/signup', [
     body('email', 'Enter a valid email').isEmail(),
     body('password', 'Password must be at least 5 characters').isLength({ min: 5 }),
 ], async (req, res) => {
-    const errors = validationResult(req);
+    const errors = validationResult(req);         
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
@@ -56,7 +56,7 @@ userRouter.post('/login',[
 ] ,async (req, res) => {
     console.log(req.body)
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
+    if (!errors.isEmpty()) {        
         return res.status(400).json({ errors: errors.array() });
     }
     
